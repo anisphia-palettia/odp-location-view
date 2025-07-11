@@ -3,13 +3,13 @@
 import {DefaultResponse, GroupResponse} from "@/types/response";
 import Link from 'next/link'
 import useSWR from "swr";
-import {getFetcher} from "@/lib/api";
+import {getData} from "@/lib/api";
 import {API} from "@/constant/api";
 
 export default function Home() {
     const {data, error, isLoading} = useSWR<DefaultResponse<GroupResponse[]>>(
         API.groups.list,
-        getFetcher
+        getData
     );
 
     const groups = data?.data;
@@ -27,36 +27,41 @@ export default function Home() {
     );
 
     return (
-        <div className="tableWrapper">
-            <table className="table">
-                <thead className="tableHead">
-                <tr>
-                    <th className="th">No</th>
-                    <th className="th">Nama Group</th>
-                    <th className="th">Total ODP</th>
-                    <th className="th">Detail</th>
-                </tr>
-                </thead>
-                <tbody className="text-gray-600 text-sm font-light">
-                {filteredGroups?.map((group, index) => (
-                    <tr key={index} className="row">
-                        <td className="td">{index + 1}</td>
-                        <td className="td">{group.name}</td>
-                        <td className="td">{group.totalCoordinates ?? "-"}</td>
-                        <td className="td text-blue-600 hover:underline cursor-pointer">
-                            <Link href={`/dashboard/${group.chatId}`}>Detail</Link>
-                        </td>
+        <div>
+            <h1>Data Seluruh Teknisi</h1>
+            <div className="tableWrapper">
+                <Link href="/dashboard/unaccepted-coordinate">
+                    Lihat yang belum di acc </Link>
+                <table className="table">
+                    <thead className="tableHead">
+                    <tr>
+                        <th className="th">No</th>
+                        <th className="th">Nama Group</th>
+                        <th className="th">Total ODP</th>
+                        <th className="th">Detail</th>
                     </tr>
-                ))}
-                <tr className="row font-semibold bg-gray-50">
-                    <td className="td" colSpan={2}>
-                        Total
-                    </td>
-                    <td className="td">{totalODP}</td>
-                    <td className="td">—</td>
-                </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="text-gray-600 text-sm font-light">
+                    {filteredGroups?.map((group, index) => (
+                        <tr key={index} className="row">
+                            <td className="td">{index + 1}</td>
+                            <td className="td">{group.name}</td>
+                            <td className="td">{group.totalCoordinates ?? "-"}</td>
+                            <td className="td text-blue-600 hover:underline cursor-pointer">
+                                <Link href={`/dashboard/${group.chatId}`}>Detail</Link>
+                            </td>
+                        </tr>
+                    ))}
+                    <tr className="row font-semibold bg-gray-50">
+                        <td className="td" colSpan={2}>
+                            Total
+                        </td>
+                        <td className="td">{totalODP}</td>
+                        <td className="td">—</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

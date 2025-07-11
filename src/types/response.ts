@@ -10,6 +10,7 @@ export interface GroupResponse {
     chatId: string;
 
     totalCoordinates?: number;
+    totalIsNotAccepted?: number;
     coordinates?: Coordinate[];
 }
 
@@ -19,6 +20,7 @@ export interface Coordinate {
     image_name: string,
     isAccepted: boolean,
     createdAt: string,
+    updatedAt: string,
 
     address?: string,
     urlId?: string,
