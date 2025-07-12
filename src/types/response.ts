@@ -15,6 +15,7 @@ export interface GroupResponse {
 }
 
 export interface Coordinate {
+    id : number,
     latitude: string,
     longitude: string,
     image_name: string,

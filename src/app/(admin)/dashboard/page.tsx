@@ -1,23 +1,15 @@
 'use client';
 
-import {DefaultResponse, GroupResponse} from "@/types/response";
 import Link from 'next/link'
-import useSWR from "swr";
-import {getData} from "@/lib/api";
-import {API} from "@/constant/api";
+import {useWhatsappGroups} from "@/hooks/useWhatsappGroups";
 
 export default function Home() {
-    const {data, error, isLoading} = useSWR<DefaultResponse<GroupResponse[]>>(
-        API.groups.list,
-        getData
-    );
-
-    const groups = data?.data;
+    const {data, error, isLoading} = useWhatsappGroups();
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
-    const filteredGroups = groups
+    const filteredGroups = data
         ?.filter((group) => group.name.toLowerCase().endsWith("group"))
         .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -25,6 +17,8 @@ export default function Home() {
         (sum, group) => sum + (group.totalCoordinates ?? 0),
         0
     );
+
+    console.log(data)
 
     return (
         <div>

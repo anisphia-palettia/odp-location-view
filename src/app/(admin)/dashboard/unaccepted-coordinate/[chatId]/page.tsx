@@ -1,35 +1,37 @@
 'use client'
 import {useParams} from "next/navigation";
-import {DefaultResponse, GroupResponse} from "@/types/response";
-import useSWR from "swr";
-import {API} from "@/constant/api";
-import {getData, putData} from "@/lib/api";
 import {useState} from "react";
 import Link from "next/link";
 import {formatDate} from "@/utils/format-date";
-import useSWRMutation from "swr/mutation";
+import {useWhatsappGroupCoordinate} from "@/hooks/useWhatsappGroups";
+import {WhatsappCoordinateService} from "@/services/whatsapp.service";
+import {mutate} from "swr";
+import {logger} from "@/lib/logger";
 
 export default function UnacceptedCoordinateDetail() {
     const [hoverIndex, setHoverIndex] = useState<number | null>(null);
     const {chatId} = useParams<{ chatId: string }>()
-    const {data, error, isLoading} = useSWR<DefaultResponse<GroupResponse>>(
-        API.groups.detail(decodeURIComponent(chatId)),
-        getData
-    )
-    const {trigger: updateCoordinate} = useSWRMutation(API.coordinate.edit(1), putData)
 
+    const {data, error, isLoading} = useWhatsappGroupCoordinate(chatId);
 
+    const handleAcc = async (id: number) => {
+        try {
+            await WhatsappCoordinateService().update(id, {isAccepted: true})
+            await mutate("whatsapp-coordinate-group")
+        } catch (error) {
+            logger.error("Failed to acc coordinate:", error);
+        }
+    }
 
-    const groupDetail = data?.data;
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
-    const filteredCoordinates = groupDetail?.coordinates?.filter((data) => !data.isAccepted) ?? [];
+    const filteredCoordinates = data?.coordinates?.filter((data) => !data.isAccepted) ?? [];
     return (
         <>
-            <h1>{groupDetail?.name ?? ""}</h1>
-            {groupDetail?.coordinates && (
+            <h1>{data?.name ?? ""}</h1>
+            {data?.coordinates && (
                 <h2>Total yang belum di acc: {filteredCoordinates.length}</h2>
             )}
             <div className="tableWrapper">
@@ -63,11 +65,11 @@ export default function UnacceptedCoordinateDetail() {
                                             )}
                                         </td>
                                         <td className='td'>
-                                            {isHovered && groupDetail ? (
+                                            {isHovered && data ? (
                                                 <Link
-                                                    href={`https://odp.tridatafiber.com/public/${groupDetail.name}/${coordinate.image_name}`}>
+                                                    href={`https://odp.tridatafiber.com/public/${data.name}/${coordinate.image_name}`}>
                                                     <img
-                                                        src={`https://odp.tridatafiber.com/public/${groupDetail.name}/${coordinate.image_name}`}
+                                                        src={`https://odp.tridatafiber.com/public/${data.name}/${coordinate.image_name}`}
                                                         alt={coordinate.image_name}
                                                         width={100}
                                                         height={100}
@@ -81,7 +83,8 @@ export default function UnacceptedCoordinateDetail() {
                                         </td>
                                         <td className="td">
                                             <div className="flex flex-col gap-2">
-                                                <button className="btn-blue" onClick={handleUpdate}>Acc</button>
+                                                <button className="btn-blue" onClick={() => handleAcc(coordinate.id)}>Acc
+                                                </button>
                                                 <button className="btn-red">Tolak</button>
                                             </div>
                                         </td>

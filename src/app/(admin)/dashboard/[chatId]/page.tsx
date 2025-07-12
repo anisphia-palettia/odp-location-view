@@ -1,30 +1,24 @@
 'use client'
 import {useParams} from "next/navigation";
-import {DefaultResponse, GroupResponse} from "@/types/response";
-import useSWR from "swr";
-import {API} from "@/constant/api";
-import {getData} from "@/lib/api";
 import {useState} from "react";
 import Link from "next/link";
 import {formatDate} from "@/utils/format-date";
+import {useWhatsappGroupCoordinate} from "@/hooks/useWhatsappGroups";
 
 export default function GroupDetail() {
     const [hoverIndex, setHoverIndex] = useState<number | null>(null);
     const {chatId} = useParams<{ chatId: string }>()
-    const {data, error, isLoading} = useSWR<DefaultResponse<GroupResponse>>(
-        API.groups.detail(decodeURIComponent(chatId)),
-        getData
-    )
-    const groupDetail = data?.data;
+
+    const {data, error, isLoading} = useWhatsappGroupCoordinate(chatId);
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
-    const filteredCoordinates = groupDetail?.coordinates?.filter((data) => data.isAccepted) ?? [];
+    const filteredCoordinates = data?.coordinates?.filter((data) => data.isAccepted) ?? [];
     return (
         <>
-            <h1>{groupDetail?.name ?? ""}</h1>
-            {groupDetail?.coordinates && (
+            <h1>{data?.name ?? ""}</h1>
+            {data?.coordinates && (
                 <h2>Total koordinat: {filteredCoordinates.length}</h2>
             )}
             <div className="tableWrapper">
@@ -57,11 +51,11 @@ export default function GroupDetail() {
                                         )}
                                     </td>
                                     <td className='td'>
-                                        {isHovered && groupDetail ? (
+                                        {isHovered && data ? (
                                             <Link
-                                                href={`https://odp.tridatafiber.com/public/${groupDetail.name}/${coordinate.image_name}`}>
+                                                href={`https://odp.tridatafiber.com/public/${data.name}/${coordinate.image_name}`}>
                                                 <img
-                                                    src={`https://odp.tridatafiber.com/public/${groupDetail.name}/${coordinate.image_name}`}
+                                                    src={`https://odp.tridatafiber.com/public/${data.name}/${coordinate.image_name}`}
                                                     alt={coordinate.image_name}
                                                     width={100}
                                                     height={100}
