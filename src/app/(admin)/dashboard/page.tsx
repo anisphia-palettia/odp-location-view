@@ -18,8 +18,6 @@ export default function Home() {
         0
     );
 
-    console.log(data)
-
     return (
         <div>
             <h1>Data Seluruh Teknisi</h1>
