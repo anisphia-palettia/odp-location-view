@@ -1,12 +1,20 @@
 'use client';
 
-import Link from 'next/link'
+import Link from 'next/link';
 import {useWhatsappGroups} from "@/hooks/useWhatsappGroups";
 
-export default function UnacceptedCoordinate() {
-    const {data, error, isLoading} = useWhatsappGroups()
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p className="text-red-500">Error: {error.message}</p>;
+export default function UnacceptedCoordinatePage() {
+    const {data, error, isLoading} = useWhatsappGroups();
+
+    if (isLoading) return (
+        <div className="flex justify-center py-8">
+            <span className="loading loading-spinner text-primary"></span>
+        </div>
+    );
+
+    if (error) return (
+        <p className="text-error text-center text-lg">Error: {error.message}</p>
+    );
 
     const filteredGroups = data
         ?.filter((group) => group.name.toLowerCase().endsWith("group"))
@@ -18,36 +26,41 @@ export default function UnacceptedCoordinate() {
     );
 
     return (
-        <div className="tableWrapper">
-            <table className="table">
-                <thead className="tableHead">
-                <tr>
-                    <th className="th">No</th>
-                    <th className="th">Nama Group</th>
-                    <th className="th">Total yang belum di acc</th>
-                    <th className="th">Detail</th>
-                </tr>
-                </thead>
-                <tbody className="text-gray-600 text-sm font-light">
-                {filteredGroups?.map((group, index) => (
-                    <tr key={index} className="row">
-                        <td className="td">{index + 1}</td>
-                        <td className="td">{group.name}</td>
-                        <td className="td">{group.totalIsNotAccepted ?? "-"}</td>
-                        <td className="td text-blue-600 hover:underline cursor-pointer">
-                            <Link href={`/dashboard/unaccepted-coordinate/${group.chatId}`}>Detail</Link>
-                        </td>
+        <>
+            <h1 className="font-bold mb-4">Data yang Belum Di-ACC</h1>
+
+            <div className="overflow-x-auto  rounded-lg shadow">
+                <table className="table w-full table-zebra">
+                    <thead className="font-semibold">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Group</th>
+                        <th>Total yang Belum di ACC</th>
+                        <th>Detail</th>
                     </tr>
-                ))}
-                <tr className="row font-semibold bg-gray-50">
-                    <td className="td" colSpan={2}>
-                        Total
-                    </td>
-                    <td className="td">{totalIsNotAcceptedODP}</td>
-                    <td className="td">—</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody className="">
+                    {filteredGroups?.map((group, index) => (
+                        <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{group.name}</td>
+                            <td className={group.totalIsNotAccepted === 0 ? "" : "text-error"}>{group.totalIsNotAccepted ?? "-"}</td>
+                            <td>
+                                <Link href={`/dashboard/unaccepted-coordinate/${group.chatId}`}
+                                      className={"btn btn-sm btn-primary"}>
+                                    Detail
+                                </Link>
+                            </td>
+                        </tr>
+                    ))}
+                    <tr className="font-bold bg-base-200">
+                        <td colSpan={2}>Total</td>
+                        <td>{totalIsNotAcceptedODP}</td>
+                        <td>—</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </>
     );
 }

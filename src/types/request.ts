@@ -5,4 +5,5 @@ export interface UpdateCoordinatePayload {
     urlId?: string;
     url?: string;
     isAccepted?: boolean;
+    isReject?: boolean;
 }

@@ -25,7 +25,6 @@ export function useWhatsappGroupCoordinate(chatId: string) {
         shouldFetch ? `whatsapp-coordinate-group` : null,
         fetcher
     );
-
     return {
         data: data?.data ?? null,
         error,

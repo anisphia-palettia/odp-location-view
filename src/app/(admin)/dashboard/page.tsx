@@ -1,16 +1,27 @@
 'use client';
 
-import Link from 'next/link'
-import {useWhatsappGroups} from "@/hooks/useWhatsappGroups";
+import Link from 'next/link';
+import {useWhatsappGroups} from '@/hooks/useWhatsappGroups';
 
-export default function Home() {
+export default function DashboardPage() {
     const {data, error, isLoading} = useWhatsappGroups();
 
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p className="text-red-500">Error: {error.message}</p>;
+    if (isLoading) {
+        return (
+            <div className="flex justify-center py-8">
+                <span className="loading loading-spinner text-primary"></span>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <p className="text-error text-center text-lg">Error: {error.message}</p>
+        );
+    }
 
     const filteredGroups = data
-        ?.filter((group) => group.name.toLowerCase().endsWith("group"))
+        ?.filter((group) => group.name.toLowerCase().endsWith('group'))
         .sort((a, b) => a.name.localeCompare(b.name));
 
     const totalODP = filteredGroups?.reduce(
@@ -19,41 +30,49 @@ export default function Home() {
     );
 
     return (
-        <div>
-            <h1>Data Seluruh Teknisi</h1>
-            <div className="tableWrapper">
-                <Link href="/dashboard/unaccepted-coordinate">
-                    Lihat yang belum di acc </Link>
-                <table className="table">
-                    <thead className="tableHead">
+        <>
+            <h1 className="font-bold mb-4">Data Seluruh Teknisi</h1>
+
+            <div className="mb-4">
+                <Link href="/dashboard/unaccepted-coordinate" className="btn btn-sm btn-primary">
+                    Lihat yang belum di ACC
+                </Link>
+            </div>
+
+            <div className="overflow-x-auto rounded-lg shadow">
+                <table className="table w-full table-zebra">
+                    <thead className="font-semibold">
                     <tr>
-                        <th className="th">No</th>
-                        <th className="th">Nama Group</th>
-                        <th className="th">Total ODP</th>
-                        <th className="th">Detail</th>
+                        <th>No</th>
+                        <th>Nama Group</th>
+                        <th>Total seluruh ODP</th>
+                        <th>Detail</th>
                     </tr>
                     </thead>
-                    <tbody className="text-gray-600 text-sm font-light">
+                    <tbody className="">
                     {filteredGroups?.map((group, index) => (
-                        <tr key={index} className="row">
-                            <td className="td">{index + 1}</td>
-                            <td className="td">{group.name}</td>
-                            <td className="td">{group.totalCoordinates ?? "-"}</td>
-                            <td className="td text-blue-600 hover:underline cursor-pointer">
-                                <Link href={`/dashboard/${group.chatId}`}>Detail</Link>
+                        <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{group.name}</td>
+                            <td>{group.totalCoordinates ?? '-'}</td>
+                            <td>
+                                <Link
+                                    href={`/dashboard/${group.chatId}`}
+                                    className="btn btn-sm btn-primary"
+                                >
+                                    Detail
+                                </Link>
                             </td>
                         </tr>
                     ))}
-                    <tr className="row font-semibold bg-gray-50">
-                        <td className="td" colSpan={2}>
-                            Total
-                        </td>
-                        <td className="td">{totalODP}</td>
-                        <td className="td">—</td>
+                    <tr className="font-bold bg-base-200">
+                        <td colSpan={2}>Total</td>
+                        <td>{totalODP}</td>
+                        <td>—</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </>
     );
 }

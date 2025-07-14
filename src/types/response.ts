@@ -20,6 +20,7 @@ export interface Coordinate {
     longitude: string,
     image_name: string,
     isAccepted: boolean,
+    isReject: boolean,
     createdAt: string,
     updatedAt: string,
 

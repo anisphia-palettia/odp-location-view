@@ -8,6 +8,7 @@ export function WhatsappGroupService() {
         async getAll(): Promise<DefaultResponse<GroupResponse[]>> {
             try {
                 const response = await api.get<DefaultResponse<GroupResponse[]>>("/groups");
+                logger.info("Fetched WhatsApp groups with coordinate:", response.data);
                 return response.data;
             } catch (error) {
                 logger.error("Failed to fetch WhatsApp groups with coordinate:", error);
