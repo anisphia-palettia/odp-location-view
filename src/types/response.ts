@@ -21,7 +21,7 @@ export interface Coordinate {
     image_name: string,
     isAccepted: boolean,
     isReject: boolean,
-    createdAt: string,
+    createdAt: Date,
     updatedAt: string,
 
     address?: string,

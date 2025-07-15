@@ -1,7 +1,7 @@
 import api from "@/lib/api";
 import {logger} from "@/lib/logger";
 import {DefaultResponse, GroupResponse} from "@/types/response";
-import {UpdateCoordinatePayload} from "@/types/request";
+import {UpdateCoordinateInput} from "@/types/request";
 
 export function WhatsappGroupService() {
     return {
@@ -20,7 +20,7 @@ export function WhatsappGroupService() {
 
 export function WhatsappCoordinateService() {
     return {
-        async update(id: number, req: UpdateCoordinatePayload): Promise<DefaultResponse> {
+        async update(id: number, req: UpdateCoordinateInput): Promise<DefaultResponse> {
             try {
                 const response = await api.put<DefaultResponse>(`/coordinate/${id}`, req)
                 logger.info("Updated WhatsApp coordinate:", response.data);

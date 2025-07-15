@@ -1,4 +1,4 @@
-export interface UpdateCoordinatePayload {
+export interface UpdateCoordinateInput {
     lat?: string;
     long?: string;
     address?: string
@@ -6,4 +6,5 @@ export interface UpdateCoordinatePayload {
     url?: string;
     isAccepted?: boolean;
     isReject?: boolean;
+    createdAt?: string;
 }

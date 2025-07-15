@@ -7,7 +7,8 @@ import {mutate} from "swr";
 import {logger} from "@/lib/logger";
 import {formatDate} from "@/utils/format-date";
 import Link from "next/link";
-import Image from "next/image";
+import EditModal from "@/components/EditModal";
+import CoordinateDetailModal from "@/components/CoordinateDetailModal";
 
 export default function UnacceptedCoordinateDetailPage() {
     const {chatId} = useParams<{ chatId: string }>();
@@ -68,6 +69,8 @@ export default function UnacceptedCoordinateDetailPage() {
                         const lat = coordinate.latitude
                         const lng = coordinate.longitude
 
+                        console.log(coordinate.createdAt)
+
                         return (
                             <tr key={coordinate.id}>
                                 <td>{index + 1}</td>
@@ -92,42 +95,35 @@ export default function UnacceptedCoordinateDetailPage() {
                                     )}
                                 </td>
                                 <td>
-                                    <button
-                                        className="btn btn-sm btn-primary"
-                                        onClick={() => {
-                                            const dialog = document.getElementById(modalId) as HTMLDialogElement | null;
+                                    <div className="space-x-2">
+                                        <button
+                                            className="btn btn-sm btn-primary"
+                                            onClick={() => {
+                                                const dialog = document.getElementById(`${modalId}-detail`) as HTMLDialogElement | null;
+                                                dialog?.showModal();
+                                            }}
+                                        >
+                                            Lihat
+                                        </button>
+                                        <button className="btn btn-sm btn-secondary" onClick={() => {
+                                            const dialog = document.getElementById(`${modalId}-edit`) as HTMLDialogElement | null;
                                             dialog?.showModal();
-                                        }}
-                                    >
-                                        Lihat
-                                    </button>
+                                        }}>Edit
+                                        </button>
+                                    </div>
 
-                                    <dialog id={modalId} className="modal">
-                                        <div className="modal-box">
-                                            <h3 className="font-bold text-lg mb-2">Preview Gambar</h3>
-                                            <Link href={imageUrl} target="_blank">
-                                                <Image width={400} height={400} src={imageUrl} alt="Preview"
-                                                       className="w-full rounded mb-4"/>
-                                            </Link>
-                                            <div className="flex justify-end gap-2">
-                                                <form method="dialog" className={"flex gap-2"}>
-                                                    <button
-                                                        className="btn btn-primary"
-                                                        onClick={() => handleAcc(coordinate.id)}
-                                                    >
-                                                        ACC
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-secondary"
-                                                        onClick={() => handleReject(coordinate.id)}
-                                                    >
-                                                        Tolak
-                                                    </button>
-                                                    <button className="btn ">Tutup</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </dialog>
+                                    <EditModal coordinateId={coordinate.id} defaultAddress={coordinate.address}
+                                               modalId={`${modalId}-edit`} createdAt={coordinate.createdAt}/>
+
+                                    <CoordinateDetailModal
+                                        modalId={`modal-${coordinate.id}`}
+                                        coordinateId={coordinate.id}
+                                        imageUrl={imageUrl}
+                                        handleAcc={handleAcc}
+                                        handleReject={handleReject}
+                                    />
+
+
                                 </td>
                             </tr>
                         );
