@@ -55,6 +55,7 @@ export default function UnacceptedCoordinateDetailPage() {
                         <th>Waktu</th>
                         <th>Kordinat</th>
                         <th>Alamat</th>
+                        <th>Google Maps</th>
                         <th>URL TimeMark</th>
                         <th>Aksi</th>
                     </tr>
@@ -63,13 +64,19 @@ export default function UnacceptedCoordinateDetailPage() {
                     {filteredCoordinates.map((coordinate, index) => {
                         const imageUrl = `https://odp.tridatafiber.com/public/${data?.name}/${coordinate.image_name}`;
                         const modalId = `modal-${coordinate.id}`;
+                        const lat = coordinate.latitude
+                        const lng = coordinate.longitude
 
                         return (
                             <tr key={coordinate.id}>
                                 <td>{index + 1}</td>
                                 <td>{formatDate(coordinate.createdAt)}</td>
-                                <td>{`${coordinate.latitude}, ${coordinate.longitude}`}</td>
+                                <td>{`${lat}, ${lng}`}</td>
                                 <td>{coordinate.address || "Tidak ada"}</td>
+                                <td>
+                                    <Link href={`https://www.google.com/maps?q=${lat},${lng}`} className={"underline"}
+                                          target="_blank">Link</Link>
+                                </td>
                                 <td>
                                     {coordinate.urlId ? (
                                         <Link

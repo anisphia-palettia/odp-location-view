@@ -40,10 +40,13 @@ export default function GroupDetailPage() {
                     {filteredCoordinates?.map((coordinate, index) => {
                         const imageUrl = `https://odp.tridatafiber.com/public/${data?.name}/${coordinate.image_name}`;
                         const modalId = `modal-${coordinate.id}`;
+                        const date = formatDate(coordinate.createdAt)
+                        const lng = coordinate.longitude
+                        const lat = coordinate.latitude
                         return (
                             <tr key={index} className="row">
                                 <td>{index + 1}</td>
-                                <td>{formatDate(coordinate.createdAt)}</td>
+                                <td>{date}</td>
                                 <td>{`${coordinate.latitude}, ${coordinate.longitude}`}</td>
                                 <td>{coordinate.address || "Tidak ada"} </td>
                                 <td>
@@ -62,32 +65,54 @@ export default function GroupDetailPage() {
                                     </button>
 
                                     <dialog id={modalId} className="modal">
-                                        <div className="modal-box">
-                                            <h3 className="font-bold text-lg mb-2">Preview Gambar</h3>
-                                            <Link href={imageUrl} target="_blank">
-                                                <img src={imageUrl} alt="Preview" className="w-full rounded mb-4"/>
-                                            </Link>
-                                            <div className="flex justify-end gap-2">
-                                                <form method="dialog" className={"flex gap-2"}>
-                                                    <button
-                                                        className="btn btn-primary"
-                                                        onClick={() => {
-                                                        }}
-                                                    >
-                                                        ACC
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-secondary"
-                                                        onClick={() => {
-                                                        }}
-                                                    >
-                                                        Tolak
-                                                    </button>
-                                                    <button className="btn ">Tutup</button>
+                                        <div className="modal-box w-11/12 max-w-3xl p-6">
+                                            <h2 className="text-2xl font-bold mb-4">Detail</h2>
+                                            <div className="flex flex-col md:flex-row gap-6">
+                                                <Link href={imageUrl} target="_blank" className="md:w-1/2">
+                                                    <img
+                                                        src={imageUrl}
+                                                        alt="Preview"
+                                                        className="rounded-lg shadow-md w-full object-cover"
+                                                    />
+                                                </Link>
+                                                <div className="md:w-1/2 flex flex-col justify-between">
+                                                    <div>
+                                                        <div className="space-y-2">
+                                                            <div className="space-y-1">
+                                                                <h4>Tanggal: </h4>
+                                                                <p>{date}</p>
+                                                            </div>
+                                                            <div className="space-y-1">
+                                                                <h4>Koordinat: </h4>
+                                                                <p>{date}</p>
+                                                            </div>
+                                                            <div className="space-y-1">
+                                                                <h4>Url Timemark </h4>
+                                                                <p>{date}</p>
+                                                            </div>
+                                                            <div className="space-y-1">
+                                                                <h4>Maps: </h4>
+                                                                <Link
+                                                                    href={`https://www.google.com/maps?q=${lat},${lng}`}
+                                                                    target="_blank"
+                                                                    className="link underline "
+                                                                >
+                                                                    Lihat Lokasi di Google Maps 📍
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="modal-action mt-6">
+                                                <button className="btn btn-secondary">Edit</button>
+                                                <form method="dialog">
+                                                    <button className="btn btn-primary">Tutup</button>
                                                 </form>
                                             </div>
                                         </div>
                                     </dialog>
+
                                 </td>
                             </tr>
                         )

@@ -20,9 +20,10 @@ export default function DashboardPage() {
         );
     }
 
-    const filteredGroups = data
-        ?.filter((group) => group.name.toLowerCase().endsWith('group'))
-        .sort((a, b) => a.name.localeCompare(b.name));
+    const filteredGroups = data?.filter((group) => {
+        const name = group.name.toLowerCase();
+        return name.endsWith('group') || name.endsWith('olt');
+    });
 
     const totalODP = filteredGroups?.reduce(
         (sum, group) => sum + (group.totalCoordinates ?? 0),
@@ -33,9 +34,13 @@ export default function DashboardPage() {
         <>
             <h1 className="font-bold mb-4">Data Seluruh Teknisi</h1>
 
-            <div className="mb-4">
+            <div className="flex flex-row gap-4 mb-4">
                 <Link href="/dashboard/unaccepted-coordinate" className="btn btn-sm btn-primary">
                     Lihat yang belum di ACC
+                </Link>
+
+                <Link href="" className="btn btn-sm btn-primary">
+                    Lihat yang ditolak
                 </Link>
             </div>
 
