@@ -3,6 +3,7 @@ import {useParams} from "next/navigation";
 import Link from "next/link";
 import {formatDate} from "@/utils/format-date";
 import {useWhatsappGroupCoordinate} from "@/hooks/useWhatsappGroups";
+import Image from "next/image";
 
 export default function GroupDetailPage() {
     const {chatId} = useParams<{ chatId: string }>()
@@ -69,7 +70,9 @@ export default function GroupDetailPage() {
                                             <h2 className="text-2xl font-bold mb-4">Detail</h2>
                                             <div className="flex flex-col md:flex-row gap-6">
                                                 <Link href={imageUrl} target="_blank" className="md:w-1/2">
-                                                    <img
+                                                    <Image
+                                                        width={400}
+                                                        height={400}
                                                         src={imageUrl}
                                                         alt="Preview"
                                                         className="rounded-lg shadow-md w-full object-cover"

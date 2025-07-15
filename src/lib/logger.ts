@@ -1,24 +1,25 @@
 import {appConfig} from "@/config/app.config";
+
 const isDev = appConfig.nodeEnv === "development";
 
 export const logger = {
-    log: (...args: any[]) => {
+    log: (...args: (string | number | object)[]) => {
         if (isDev) console.log("[LOG]:", ...args);
     },
 
-    info: (...args: any[]) => {
+    info: (...args: (string | number | object)[]) => {
         if (isDev) console.info("[INFO]:", ...args);
     },
 
-    warn: (...args: any[]) => {
+    warn: (...args: (string | number | object)[]) => {
         if (isDev) console.warn("[WARN]:", ...args);
     },
 
-    error: (...args: any[]) => {
+    error: (...args: Parameters<typeof console.error>) => {
         if (isDev) console.error("[ERROR]:", ...args);
     },
 
-    debug: (...args: any[]) => {
+    debug: (...args: (string | number | object)[]) => {
         if (isDev) console.debug("[DEBUG]:", ...args);
     },
 };

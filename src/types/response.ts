@@ -1,4 +1,4 @@
-export interface DefaultResponse<T = any> {
+export interface DefaultResponse<T = unknown> {
     success: boolean;
     message: string;
     data?: T;

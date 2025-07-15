@@ -7,6 +7,7 @@ import {mutate} from "swr";
 import {logger} from "@/lib/logger";
 import {formatDate} from "@/utils/format-date";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function UnacceptedCoordinateDetailPage() {
     const {chatId} = useParams<{ chatId: string }>();
@@ -105,7 +106,8 @@ export default function UnacceptedCoordinateDetailPage() {
                                         <div className="modal-box">
                                             <h3 className="font-bold text-lg mb-2">Preview Gambar</h3>
                                             <Link href={imageUrl} target="_blank">
-                                                <img src={imageUrl} alt="Preview" className="w-full rounded mb-4"/>
+                                                <Image width={400} height={400} src={imageUrl} alt="Preview"
+                                                       className="w-full rounded mb-4"/>
                                             </Link>
                                             <div className="flex justify-end gap-2">
                                                 <form method="dialog" className={"flex gap-2"}>
