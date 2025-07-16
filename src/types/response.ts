@@ -15,14 +15,13 @@ export interface GroupResponse {
 }
 
 export interface Coordinate {
-    id : number,
+    id: number,
     latitude: string,
     longitude: string,
     image_name: string,
     isAccepted: boolean,
     isReject: boolean,
-    createdAt: Date,
-    updatedAt: string,
+    photoTakenAt: Date,
 
     address?: string,
     urlId?: string,

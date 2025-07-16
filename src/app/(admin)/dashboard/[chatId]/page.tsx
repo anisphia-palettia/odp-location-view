@@ -41,9 +41,11 @@ export default function GroupDetailPage() {
                     {filteredCoordinates?.map((coordinate, index) => {
                         const imageUrl = `https://odp.tridatafiber.com/public/${data?.name}/${coordinate.image_name}`;
                         const modalId = `modal-${coordinate.id}`;
-                        const date = formatDate(coordinate.createdAt)
+                        const takenAt = coordinate.photoTakenAt
                         const lng = coordinate.longitude
                         const lat = coordinate.latitude
+
+                        const date = formatDate(takenAt)
                         return (
                             <tr key={index} className="row">
                                 <td>{index + 1}</td>

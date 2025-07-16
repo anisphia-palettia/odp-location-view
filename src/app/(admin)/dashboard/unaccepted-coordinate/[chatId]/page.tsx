@@ -68,13 +68,14 @@ export default function UnacceptedCoordinateDetailPage() {
                         const modalId = `modal-${coordinate.id}`;
                         const lat = coordinate.latitude
                         const lng = coordinate.longitude
+                        const takenAt = coordinate.photoTakenAt
 
-                        console.log(coordinate.createdAt)
+                        const date = formatDate(takenAt)
 
                         return (
                             <tr key={coordinate.id}>
                                 <td>{index + 1}</td>
-                                <td>{formatDate(coordinate.createdAt)}</td>
+                                <td>{date}</td>
                                 <td>{`${lat}, ${lng}`}</td>
                                 <td>{coordinate.address || "Tidak ada"}</td>
                                 <td>
@@ -113,7 +114,9 @@ export default function UnacceptedCoordinateDetailPage() {
                                     </div>
 
                                     <EditModal coordinateId={coordinate.id} defaultAddress={coordinate.address}
-                                               modalId={`${modalId}-edit`} createdAt={coordinate.createdAt}/>
+                                               modalId={`${modalId}-edit`}
+                                               photoTakenAt={new Date(takenAt).toISOString()}
+                                               imageUrl={imageUrl}/>
 
                                     <CoordinateDetailModal
                                         modalId={`modal-${coordinate.id}`}

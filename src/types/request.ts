@@ -6,5 +6,5 @@ export interface UpdateCoordinateInput {
     url?: string;
     isAccepted?: boolean;
     isReject?: boolean;
-    createdAt?: string;
+    photoTakenAt?: string;
 }
