@@ -7,8 +7,8 @@ import {mutate} from "swr";
 import {logger} from "@/lib/logger";
 import {formatDate} from "@/utils/format-date";
 import Link from "next/link";
-import EditModal from "@/components/EditModal";
 import CoordinateDetailModal from "@/components/CoordinateDetailModal";
+import UpdateCoordinateModal from "@/components/UpdateCoordinateModal";
 
 export default function UnacceptedCoordinateDetailPage() {
     const {chatId} = useParams<{ chatId: string }>();
@@ -107,16 +107,17 @@ export default function UnacceptedCoordinateDetailPage() {
                                             Lihat
                                         </button>
                                         <button className="btn btn-sm btn-secondary" onClick={() => {
-                                            const dialog = document.getElementById(`${modalId}-edit`) as HTMLDialogElement | null;
+                                            const dialog = document.getElementById(`${modalId}_edit`) as HTMLDialogElement | null;
                                             dialog?.showModal();
                                         }}>Edit
                                         </button>
                                     </div>
 
-                                    <EditModal coordinateId={coordinate.id} defaultAddress={coordinate.address}
-                                               modalId={`${modalId}-edit`}
-                                               photoTakenAt={new Date(takenAt).toISOString()}
-                                               imageUrl={imageUrl}/>
+                                    <UpdateCoordinateModal coordinateId={coordinate.id}
+                                                           defaultAddress={coordinate.address}
+                                                           modalId={modalId}
+                                                           photoTakenAt={new Date(takenAt).toISOString()}
+                                                           imageUrl={imageUrl}/>
 
                                     <CoordinateDetailModal
                                         modalId={`modal-${coordinate.id}`}

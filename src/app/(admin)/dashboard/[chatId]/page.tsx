@@ -4,6 +4,7 @@ import Link from "next/link";
 import {formatDate} from "@/utils/format-date";
 import {useWhatsappGroupCoordinate} from "@/hooks/useWhatsappGroups";
 import Image from "next/image";
+import UpdateCoordinateModal from "@/components/UpdateCoordinateModal";
 
 export default function GroupDetailPage() {
     const {chatId} = useParams<{ chatId: string }>()
@@ -34,7 +35,7 @@ export default function GroupDetailPage() {
                         <th>Kordinat</th>
                         <th>Alamat</th>
                         <th>URL TimeMark</th>
-                        <th>Gambar</th>
+                        <th>Aksi</th>
                     </tr>
                     </thead>
                     <tbody className="">
@@ -61,13 +62,26 @@ export default function GroupDetailPage() {
                                     )}
                                 </td>
                                 <td>
-                                    <button className="btn btn-primary btn-sm" onClick={() => {
-                                        const dialog = document.getElementById(modalId) as HTMLDialogElement | null;
-                                        dialog?.showModal();
-                                    }}>Detail
-                                    </button>
+                                    <div className={'flex flex-row gap-2 items-center'}>
+                                        <button className="btn btn-primary btn-sm" onClick={() => {
+                                            const dialog = document.getElementById(`${modalId}_detail`) as HTMLDialogElement | null;
+                                            dialog?.showModal();
+                                        }}>Detail
+                                        </button>
 
-                                    <dialog id={modalId} className="modal">
+                                        <button className="btn btn-secondary btn-sm" onClick={() => {
+                                            const dialog = document.getElementById(`${modalId}_edit`) as HTMLDialogElement | null;
+                                            dialog?.showModal();
+                                        }}>Edit
+                                        </button>
+                                    </div>
+
+                                    <UpdateCoordinateModal coordinateId={coordinate.id} modalId={modalId}
+                                                           photoTakenAt={new Date(takenAt).toISOString()}
+                                                           imageUrl={imageUrl}/>
+
+
+                                    <dialog id={`${modalId}_detail`} className="modal">
                                         <div className="modal-box w-11/12 max-w-3xl p-6">
                                             <h2 className="text-2xl font-bold mb-4">Detail</h2>
                                             <div className="flex flex-col md:flex-row gap-6">
@@ -109,13 +123,13 @@ export default function GroupDetailPage() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="modal-action mt-6">
-                                                <button className="btn btn-secondary">Edit</button>
-                                                <form method="dialog">
-                                                    <button className="btn btn-primary">Tutup</button>
-                                                </form>
-                                            </div>
+                                            <form method="dialog">
+                                                <button className="btn btn-primary">Tutup</button>
+                                            </form>
                                         </div>
+                                        <form method="dialog" className="modal-backdrop">
+                                            <button>close</button>
+                                        </form>
                                     </dialog>
 
                                 </td>

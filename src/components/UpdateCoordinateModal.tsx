@@ -16,7 +16,7 @@ interface Props {
     imageUrl: string;
 }
 
-export default function EditModal({coordinateId, defaultAddress, modalId, photoTakenAt, imageUrl}: Props) {
+export default function UpdateCoordinateModal({coordinateId, defaultAddress, modalId, photoTakenAt, imageUrl}: Props) {
     const {register, handleSubmit, control, formState: {errors}} = useForm<UpdateCoordinateInput>({
         defaultValues: {
             address: defaultAddress ?? "",
@@ -42,7 +42,7 @@ export default function EditModal({coordinateId, defaultAddress, modalId, photoT
     };
 
     return (
-        <dialog id={modalId} className="modal">
+        <dialog id={`${modalId}_edit`} className="modal">
             <div className="modal-box w-full max-w-2xl p-4 sm:p-6">
                 <Link href={imageUrl} target="_blank">
                     <Image
