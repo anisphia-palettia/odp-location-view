@@ -37,7 +37,7 @@ export default function UpdateCoordinateModal({coordinateId, defaultAddress, mod
         await WhatsappCoordinateService().update(coordinateId, payload);
         await mutate("whatsapp-coordinate-group");
 
-        const dialog = document.getElementById(modalId) as HTMLDialogElement;
+        const dialog = document.getElementById(`${modalId}_edit`) as HTMLDialogElement;
         dialog?.close();
     };
 
