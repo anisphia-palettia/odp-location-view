@@ -103,11 +103,11 @@ export default function GroupDetailPage() {
                                                             </div>
                                                             <div className="space-y-1">
                                                                 <h4>Koordinat: </h4>
-                                                                <p>{date}</p>
+                                                                <p>{lat + ", " + lng}</p>
                                                             </div>
                                                             <div className="space-y-1">
-                                                                <h4>Url Timemark </h4>
-                                                                <p>{date}</p>
+                                                                <h4>Url Timemark</h4>
+                                                                <p>{coordinate.urlId || "Tidak ada"}</p>
                                                             </div>
                                                             <div className="space-y-1">
                                                                 <h4>Maps: </h4>
