@@ -18,7 +18,14 @@ interface Props {
     handleAccAction?: (id: number) => Promise<void> | void;
 }
 
-export default function UpdateCoordinateModal({coordinateId, defaultAddress, modalId, photoTakenAt, imageUrl, handleAccAction}: Props) {
+export default function UpdateCoordinateModal({
+                                                  coordinateId,
+                                                  defaultAddress,
+                                                  modalId,
+                                                  photoTakenAt,
+                                                  imageUrl,
+                                                  handleAccAction
+                                              }: Props) {
     const {register, handleSubmit, control, formState: {errors}} = useForm<UpdateCoordinateInput>({
         defaultValues: {
             address: defaultAddress ?? "",
@@ -37,7 +44,7 @@ export default function UpdateCoordinateModal({coordinateId, defaultAddress, mod
         }
 
         await WhatsappCoordinateService().update(coordinateId, payload);
-        await handleAccAction(coordinateId);
+        await handleAccAction?.(coordinateId);
         await mutate("whatsapp-coordinate-group");
 
         const dialog = document.getElementById(`${modalId}_edit`) as HTMLDialogElement;
