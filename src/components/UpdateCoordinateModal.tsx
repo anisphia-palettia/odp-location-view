@@ -14,7 +14,8 @@ interface Props {
     modalId: string;
     photoTakenAt: string;
     imageUrl: string;
-    handleAccAction: (id: number) => Promise<void> | void;
+
+    handleAccAction?: (id: number) => Promise<void> | void;
 }
 
 export default function UpdateCoordinateModal({coordinateId, defaultAddress, modalId, photoTakenAt, imageUrl, handleAccAction}: Props) {
