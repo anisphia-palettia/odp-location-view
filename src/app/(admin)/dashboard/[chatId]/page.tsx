@@ -78,6 +78,7 @@ export default function GroupDetailPage() {
 
                                     <UpdateCoordinateModal coordinateId={coordinate.id} modalId={modalId}
                                                            photoTakenAt={new Date(takenAt).toISOString()}
+                                                           defaultAddress={coordinate.address}
                                                            imageUrl={imageUrl}/>
 
 
