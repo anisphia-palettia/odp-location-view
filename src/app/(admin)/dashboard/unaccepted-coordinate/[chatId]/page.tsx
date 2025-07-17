@@ -117,7 +117,7 @@ export default function UnacceptedCoordinateDetailPage() {
                                                            defaultAddress={coordinate.address}
                                                            modalId={modalId}
                                                            photoTakenAt={new Date(takenAt).toISOString()}
-                                                           imageUrl={imageUrl} handleAcc={handleAcc}/>
+                                                           imageUrl={imageUrl} handleAccAction={handleAcc}/>
 
                                     <CoordinateDetailModal
                                         modalId={`modal-${coordinate.id}`}
