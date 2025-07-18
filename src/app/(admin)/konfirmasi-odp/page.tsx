@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import {useWhatsappGroups} from "@/hooks/useWhatsappGroups";
 
-export default function UnacceptedCoordinatePage() {
+export default function KonfirmasiOdpPage() {
     const {data, error, isLoading} = useWhatsappGroups();
 
     if (isLoading) return (
@@ -27,7 +27,7 @@ export default function UnacceptedCoordinatePage() {
 
     return (
         <>
-            <h1 className="font-bold mb-4">Data yang Belum Di-ACC</h1>
+            <h1 className="font-bold mb-4">Konfirmasi ODP</h1>
 
             <div className="overflow-x-auto  rounded-lg shadow">
                 <table className="table w-full table-zebra">
@@ -36,7 +36,7 @@ export default function UnacceptedCoordinatePage() {
                         <th>No</th>
                         <th>Nama Group</th>
                         <th>Total yang Belum di ACC</th>
-                        <th>Detail</th>
+                        <th>Aksi</th>
                     </tr>
                     </thead>
                     <tbody className="">
@@ -46,9 +46,9 @@ export default function UnacceptedCoordinatePage() {
                             <td>{group.name}</td>
                             <td className={group.totalIsNotAccepted === 0 ? "" : "text-error"}>{group.totalIsNotAccepted ?? "-"}</td>
                             <td>
-                                <Link href={`/dashboard/unaccepted-coordinate/${group.chatId}`}
+                                <Link href={`/konfirmasi-odp/${group.chatId}`}
                                       className={"btn btn-sm btn-primary"}>
-                                    Detail
+                                    Lihat
                                 </Link>
                             </td>
                         </tr>

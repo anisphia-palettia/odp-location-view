@@ -1,9 +1,12 @@
 import "@/styles/globals.css";
+import AdminSidebar from "@/components/AdminSideBar";
 
 export default function AdminLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <main className="container mx-auto p-4">{children}</main>
+        <AdminSidebar id="sidebar">
+            {children}
+        </AdminSidebar>
     );
 }
