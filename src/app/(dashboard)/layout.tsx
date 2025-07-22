@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import SideBar from "@/app/(dashboard)/component/Sidebar";
+import SideBar from "@/component/Sidebar";
 
 export default function AdminLayout({
                                         children,

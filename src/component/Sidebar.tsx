@@ -1,6 +1,6 @@
 'use client';
-import {sidebarMenu} from "@/app/(dashboard)/constants";
 import Link from "next/link";
+import {sidebarMenu} from "@/constant";
 import {usePathname} from "next/navigation";
 
 export default function SideBar({children, id}: { children: React.ReactNode, id: string }) {

@@ -1,4 +1,3 @@
-import SideBar from "@/app/(dashboard)/component/Sidebar";
 
 export default function DashboardPage() {
     return (
