@@ -41,6 +41,8 @@ export const GroupService = {
       throw error;
     }
   },
+  async create()
+
   async delete(id: number) {
     const { method, url } = groupApiUrl.delete(id);
     try {
