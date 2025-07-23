@@ -5,7 +5,7 @@ export interface CoordinateItem {
     lat: string
     groupId: number
     address: string
-    urlId: any
+    urlId: string
     isAccepted: boolean
     isReject: boolean
     photoTakenAt: string

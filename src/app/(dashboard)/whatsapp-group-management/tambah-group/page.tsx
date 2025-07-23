@@ -4,10 +4,7 @@ import Table from "@/component/Table";
 import {GroupService} from "@/service/group.service";
 import useSWR, {mutate} from "swr";
 import AlertModal from "@/component/AlertModal";
-import {useRouter} from "next/navigation";
-import BackIcon from "@/assets/back-icon";
 import {useState} from "react";
-import {asyncWrapProviders} from "node:async_hooks";
 import BackBtn from "@/component/BackBtn";
 
 export default function TambahGroupPage() {
