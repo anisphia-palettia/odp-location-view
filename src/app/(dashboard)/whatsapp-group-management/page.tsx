@@ -47,7 +47,7 @@ export default function WhatsappGroupManagementPage() {
                             <td>{group.chatId}</td>
                             <td>
                                 <button
-                                    className="btn bg-error"
+                                    className="btn bg-secondary btn-sm"
                                     onClick={() => {
                                         setTargetGroupId(group.id);
                                         (
@@ -75,7 +75,7 @@ export default function WhatsappGroupManagementPage() {
                 <div className="modal-action">
                     <form method="dialog" className="space-x-2">
                         <button
-                            className="btn bg-error"
+                            className="btn bg-secondary"
                             onClick={async (e) => {
                                 e.preventDefault();
                                 if (!targetGroupId) return;

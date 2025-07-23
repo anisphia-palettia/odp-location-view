@@ -6,22 +6,21 @@ import useSWR, {mutate} from "swr";
 import AlertModal from "@/component/AlertModal";
 import {useRouter} from "next/navigation";
 import BackIcon from "@/assets/back-icon";
+import {useState} from "react";
+import {asyncWrapProviders} from "node:async_hooks";
+import BackBtn from "@/component/BackBtn";
 
 export default function TambahGroupPage() {
     const tambahModalId = "tambah-modal"
-    const router = useRouter()
     const {
         data: groups,
         isLoading,
         error,
     } = useSWR("group-chats", GroupService.whatsappGroupChats);
+    const [targetChatId, setTargetChatId] = useState<string | null>(null)
     return (
         <main className="space-y-4">
-            <button className={"flex flex-row gap-2 btn items-center"} onClick={() => {
-                router.back()
-            }}>
-                <BackIcon/>Kembali
-            </button>
+            <BackBtn/>
             <h1>Tambah Group</h1>
 
             <Table>
@@ -47,7 +46,8 @@ export default function TambahGroupPage() {
                             <td>{group.name}</td>
                             <td>{group.id}</td>
                             <td>
-                                <button className="btn bg-primary" onClick={() => {
+                                <button className="btn bg-primary btn-sm" onClick={() => {
+                                    setTargetChatId(group.id);
                                     (
                                         document.getElementById(
                                             tambahModalId
@@ -73,8 +73,10 @@ export default function TambahGroupPage() {
                             className="btn bg-primary"
                             onClick={async (e) => {
                                 e.preventDefault();
-                                console.log("mehehehe")
+                                if (!targetChatId) return;
+                                await GroupService.create(targetChatId);
                                 await mutate("group-chats");
+                                setTargetChatId(null);
                                 (document.getElementById(tambahModalId) as HTMLDialogElement
                                 )?.close();
                             }}
