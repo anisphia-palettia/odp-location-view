@@ -83,12 +83,13 @@ export const GroupService = {
             throw error;
         }
     },
-    async update(id: number) {
+    async update(id: number, data: {show : boolean}) {
         const {method, url} = groupApiUrl.update(id);
         try {
             const response = await axiosInstance.request<ApiResponse>({
                 method,
                 url,
+                data
             });
             return response;
         } catch (error) {
