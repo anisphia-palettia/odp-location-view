@@ -5,12 +5,19 @@ import useSWR from "swr";
 import {GroupService} from "@/service/group.service";
 import Table from "@/component/Table";
 import Link from "next/link";
-import formatDate from "@/utils/format-date";
+import {formatDate} from "@/utils/format-date";
 import BackBtn from "@/component/BackBtn";
+import {useState} from "react";
+import EditCoordinateModal from "@/component/EditCoordinateModal";
+import {CoordinateItem} from "@/types/coordinate";
 
 export default function TeknisiDetailPage() {
     const pathname = usePathname();
     const groupId = pathname.split("/").pop();
+    const editModalId = 'edit-modal'
+
+    const [data, setData] = useState<CoordinateItem | null>(null);
+
 
     const {data: detail, error} = useSWR(
         groupId ? `group-coordinates-${groupId}` : null,
@@ -64,12 +71,22 @@ export default function TeknisiDetailPage() {
                             </Link>
                         </td>
                         <td>
-                            <button className={"btn btn-sm bg-primary"}>Edit</button>
+                            <button className={"btn btn-sm bg-primary"} onClick={() => {
+                                setData(coordinate);
+                                (
+                                    document.getElementById(
+                                        editModalId
+                                    ) as HTMLDialogElement
+                                )?.showModal();
+                            }}>Lihat Gambar
+                            </button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </Table>
+
+            <EditCoordinateModal id={editModalId} data={data} groupName={detail?.name}/>
         </main>
     );
 }
