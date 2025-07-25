@@ -1,21 +1,22 @@
 "use client"
 
 import useSWR from "swr";
-import { GroupService } from "@/service/group.service";
+import {GroupService} from "@/service/group.service";
 import {lazy, Suspense, use, useState} from "react";
 import BackBtn from "@/component/BackBtn";
 import Table from "@/component/Table";
-import type { CoordinateItem } from "@/types/coordinate";
+import type {CoordinateItem, CoordinateUpdateItem} from "@/types/coordinate";
+import {formatDate} from "@/utils/format-date";
 
 const VerificationAndEdit = lazy(() => import("@/component/VerificationAndEdit"));
 
-export default function VerifikasiODPPage({ params }: { params: Promise<{ groupId: string }> }) {
-    const { groupId } = use(params);
+export default function VerifikasiODPPage({params}: { params: Promise<{ groupId: string }> }) {
+    const {groupId} = use(params);
 
     const [data, setData] = useState<CoordinateItem | null>(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    const { data: detail, error } = useSWR(
+    const {data: detail, error} = useSWR(
         groupId ? `group-coordinates-${groupId}` : null,
         () => GroupService.getGroupCoordinates(Number(groupId), false)
     );
@@ -30,9 +31,13 @@ export default function VerifikasiODPPage({ params }: { params: Promise<{ groupI
         setData(null);
     };
 
+    async function handleSave(updateItem: CoordinateUpdateItem) {
+        console.log(updateItem);
+    }
+
     return (
         <main className="space-y-4">
-            <BackBtn />
+            <BackBtn/>
             <h1>Verifikasi ODP</h1>
             <h2>{detail?.name}</h2>
 
@@ -40,6 +45,7 @@ export default function VerifikasiODPPage({ params }: { params: Promise<{ groupI
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>Tanggal</th>
                     <th>Koordinat</th>
                     <th>Alamat</th>
                     <th>Link Maps</th>
@@ -51,6 +57,7 @@ export default function VerifikasiODPPage({ params }: { params: Promise<{ groupI
                 {detail?.coordinates?.map((coordinate, idx) => (
                     <tr key={idx}>
                         <td>{idx + 1}</td>
+                        <td>{formatDate(coordinate.photoTakenAt)}</td>
                         <td>{coordinate.lat}, {coordinate.long}</td>
                         <td>{coordinate.address || "Tidak ada"}</td>
                         <td>
@@ -97,6 +104,7 @@ export default function VerifikasiODPPage({ params }: { params: Promise<{ groupI
                         data={data}
                         groupName={detail?.name}
                         onClose={closeModal}
+                        onSave={handleSave}
                     />
                 )}
             </Suspense>

@@ -1,3 +1,5 @@
+import {TiangBody} from "@/types/tiang";
+
 export interface CoordinateItem {
     id: number
     imageName: string
@@ -12,10 +14,12 @@ export interface CoordinateItem {
     photoTakenAt: string
     createdAt: string
     updatedAt: string
+
+    tiang: TiangBody
 }
 
-export type CoordinateUpdateItem = {
-    show: boolean,
-    photoTakenAt: string
-    tiangId: number
-}
+    export type CoordinateUpdateItem = {
+        photoTakenAt: string
+        tiangId: number,
+        address: string,
+    }

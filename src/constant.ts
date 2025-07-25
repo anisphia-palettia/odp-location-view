@@ -15,6 +15,19 @@ export const groupApiUrl = {
     update: (id: number) => endpoint("PUT", `/group/${id}`),
 };
 
+export const coordinateApiUrl = {
+    getAll: endpoint("GET", "/coordinate"),
+    update: (id: number) => endpoint("PUT", `/coordinate/${id}`),
+}
+
+export const tiangApiUrl = {
+    getAll: endpoint("GET", "/tiang"),
+    create: endpoint("POST", "/tiang"),
+    getById: (id: number) => endpoint("GET", `/tiang/${id}`),
+    delete: (id: number) => endpoint("DELETE", `/tiang/${id}`),
+    update: (id: number) => endpoint("PUT", `/tiang/${id}`),
+}
+
 export const sidebarMenu = [
     {label: "Dashboard", path: "/"},
     {label: "Teknisi", path: "/teknisi"},
