@@ -28,11 +28,11 @@ export const GroupService = {
         }
     },
     async getGroupCoordinates(id: number) {
-        const {url, method} = groupApiUrl.getGroupCoordinates(id);
+        const {url, method} = groupApiUrl.getGroupCoordinatesAccepted(id);
         try {
             const response = await axiosInstance.request<
                 ApiResponse<GroupCoordinateItem>
-            >({method, url});
+            >({method, url, params: {"accepted": true}});
             return response.data.data;
         } catch (error) {
             throw error;
@@ -83,7 +83,7 @@ export const GroupService = {
             throw error;
         }
     },
-    async update(id: number, data: {show : boolean}) {
+    async update(id: number, data: { show: boolean }) {
         const {method, url} = groupApiUrl.update(id);
         try {
             const response = await axiosInstance.request<ApiResponse>({

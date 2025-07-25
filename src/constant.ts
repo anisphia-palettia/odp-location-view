@@ -10,7 +10,7 @@ export const groupApiUrl = {
     summary: endpoint("GET", "/group/summary"),
     whatsappGroupChats: endpoint("GET", "/group/whatsapp-group-chats"),
     create: endpoint("POST", "/group"),
-    getGroupCoordinates : (id : number) => endpoint("GET" , `/group/${id}/coordinates`),
+    getGroupCoordinatesAccepted: (id: number) => endpoint("GET", `/group/${id}/coordinates`),
     delete: (id: number) => endpoint("DELETE", `/group/${id}`),
     update: (id: number) => endpoint("PUT", `/group/${id}`),
 };

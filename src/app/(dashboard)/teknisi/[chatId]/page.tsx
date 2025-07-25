@@ -8,7 +8,7 @@ import Link from "next/link";
 import {formatDate} from "@/utils/format-date";
 import BackBtn from "@/component/BackBtn";
 import {useState} from "react";
-import EditCoordinateModal from "@/component/EditCoordinateModal";
+import DetailAndEditCoordinateModal from "@/component/DetailAndEditCoordinateModal";
 import {CoordinateItem} from "@/types/coordinate";
 
 export default function TeknisiDetailPage() {
@@ -86,7 +86,7 @@ export default function TeknisiDetailPage() {
                 </tbody>
             </Table>
 
-            <EditCoordinateModal id={editModalId} data={data} groupName={detail?.name}/>
+            <DetailAndEditCoordinateModal id={editModalId} data={data} groupName={detail?.name}/>
         </main>
     );
 }

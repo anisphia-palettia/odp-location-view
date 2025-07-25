@@ -12,7 +12,7 @@ type Props = {
     onSave?: (data: CoordinateItem) => void;
 };
 
-export default function EditCoordinateModal({id, data, onSave, groupName}: Props) {
+export default function DetailAndEditCoordinateModal({id, data, onSave, groupName}: Props) {
     const [isEdit, setIsEdit] = useState(false);
 
     const {
@@ -37,7 +37,6 @@ export default function EditCoordinateModal({id, data, onSave, groupName}: Props
             onSave({
                 ...data,
                 ...formData,
-                // Pastikan tanggalnya ISO string (opsional, jika server perlu ISO)
                 photoTakenAt: formData.photoTakenAt.length <= 10
                     ? new Date(formData.photoTakenAt).toISOString()
                     : formData.photoTakenAt
@@ -51,7 +50,7 @@ export default function EditCoordinateModal({id, data, onSave, groupName}: Props
 
     return (
         <dialog id={id} className="modal">
-            <div className="modal-box w-full max-w-2xl p-8 max-h-[90vh] overflow-y-auto">
+            <div className="modal-box md:max-w-[90vh] max-h-[90vh] overflow-y-auto">
                 <h2 className="font-bold text-xl mb-6">
                     {isEdit ? "Edit Coordinate" : "Detail Coordinate"}
                 </h2>
@@ -112,23 +111,18 @@ export default function EditCoordinateModal({id, data, onSave, groupName}: Props
                     </form>
                 ) : (
                     <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
-                        {/* Gambar */}
                         {data.imageName && groupName && (
-                            <div className="w-full md:w-[220px] flex justify-center">
-                                <div className="w-[220px] aspect-[220/320] relative rounded-lg overflow-hidden shadow bg-base-200">
-                                    <Image
-                                        src={`${EnvConfig.NEXT_PUBLIC_ASSET_BASE_URL}/${groupName}/${data.imageName}`}
-                                        alt={data.imageName}
-                                        fill
-                                        className="object-contain"
-                                        unoptimized
-                                    />
-                                </div>
-                            </div>
+                            <Image
+                                src={`${EnvConfig.NEXT_PUBLIC_ASSET_BASE_URL}/${groupName}/${data.imageName}`}
+                                alt={data.imageName}
+                                unoptimized
+                                width={400}
+                                height={400}
+                            />
                         )}
 
                         {/* Detail */}
-                        <div className="flex-1 flex flex-col gap-2">
+                        <div className="space-y-4">
                             <div>
                                 <span className="font-bold">Tanggal Foto Diambil: </span>
                                 {formatDate(data.photoTakenAt)}
