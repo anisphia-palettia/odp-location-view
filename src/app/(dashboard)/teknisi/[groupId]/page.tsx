@@ -1,19 +1,19 @@
 "use client"
 
-import {usePathname} from "next/navigation";
 import useSWR from "swr";
 import {GroupService} from "@/service/group.service";
 import Table from "@/component/Table";
 import Link from "next/link";
 import {formatDate} from "@/utils/format-date";
 import BackBtn from "@/component/BackBtn";
-import {useState} from "react";
+import {use, useState} from "react";
 import DetailAndEditCoordinateModal from "@/component/DetailAndEditCoordinateModal";
 import {CoordinateItem} from "@/types/coordinate";
 
-export default function TeknisiDetailPage() {
-    const pathname = usePathname();
-    const groupId = pathname.split("/").pop();
+export default function TeknisiDetailPage({params}: { params: Promise<{ groupId: string }> }) {
+    const {
+        groupId
+    } = use(params)
     const editModalId = 'edit-modal'
 
     const [data, setData] = useState<CoordinateItem | null>(null);

@@ -27,12 +27,12 @@ export const GroupService = {
             throw error;
         }
     },
-    async getGroupCoordinates(id: number) {
+    async getGroupCoordinates(id: number, accepted: boolean = true) {
         const {url, method} = groupApiUrl.getGroupCoordinatesAccepted(id);
         try {
             const response = await axiosInstance.request<
                 ApiResponse<GroupCoordinateItem>
-            >({method, url, params: {"accepted": true}});
+            >({method, url, params: {"accepted": accepted}});
             return response.data.data;
         } catch (error) {
             throw error;
